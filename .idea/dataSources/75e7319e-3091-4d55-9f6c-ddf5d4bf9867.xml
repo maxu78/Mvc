@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="springbootdb@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.4">
+    <root id="1"/>
+    <schema id="2" parent="1" name="springbootdb">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="df"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="i_wenyiba_com"/>
+    <schema id="6" parent="1" name="mysql"/>
+    <schema id="7" parent="1" name="shiro_demo"/>
+    <schema id="8" parent="1" name="springbootdb_cluster"/>
+    <schema id="9" parent="1" name="test"/>
+    <table id="10" parent="2" name="user"/>
+    <column id="11" parent="10" name="id">
+      <Position>1</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="12" parent="10" name="user_name">
+      <Position>2</Position>
+      <DataType>varchar(32)|0</DataType>
+    </column>
+    <column id="13" parent="10" name="description">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <key id="14" parent="10" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

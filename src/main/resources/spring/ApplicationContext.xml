@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/task
+                        http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+
+    <!-- 配置自动扫描的包，使其自动注入到IOC容器 -->
+    <context:component-scan base-package="com"/>
+    <!-- 配置定时调度 -->
+    <task:annotation-driven/>
+    <!-- 配置aop -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 加载资源文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:dbconfig.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 阿里 druid数据库连接池 datasource1 -->
+    <bean id="dataSourceOne" class="com.alibaba.druid.pool.DruidDataSource"
+          destroy-method="close">
+        <!-- 数据库基本信息配置 -->
+        <property name="url" value="${d1_url}" />
+        <property name="username" value="${d1_username}" />
+        <property name="password" value="${d1_password}" />
+        <property name="driverClassName" value="${d1_driverClassName}" />
+        <property name="filters" value="${d1_filters}" />
+        <!-- 最大并发连接数 -->
+        <property name="maxActive" value="${d1_maxActive}" />
+        <!-- 初始化连接数量 -->
+        <property name="initialSize" value="${d1_initialSize}" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${d1_maxWait}" />
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="${d1_minIdle}" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${d1_timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${d1_minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${d1_validationQuery}" />
+        <property name="testWhileIdle" value="${d1_testWhileIdle}" />
+        <property name="testOnBorrow" value="${d1_testOnBorrow}" />
+        <property name="testOnReturn" value="${d1_testOnReturn}" />
+        <property name="maxOpenPreparedStatements" value="${d1_maxOpenPreparedStatements}" />
+        <!-- 打开removeAbandoned功能 -->
+        <property name="removeAbandoned" value="${d1_removeAbandoned}" />
+        <!-- 1800秒，也就是30分钟 -->
+        <property name="removeAbandonedTimeout" value="${d1_removeAbandonedTimeout}" />
+        <!-- 关闭abanded连接时输出错误日志 -->
+        <property name="logAbandoned" value="${d1_logAbandoned}" />
+    </bean>
+
+    <!-- 阿里 druid数据库连接池 datasource2 -->
+    <bean id="dataSourceTwo" class="com.alibaba.druid.pool.DruidDataSource"
+          destroy-method="close">
+        <!-- 数据库基本信息配置 -->
+        <property name="url" value="${d2_url}" />
+        <property name="username" value="${d2_username}" />
+        <property name="password" value="${d2_password}" />
+        <property name="driverClassName" value="${d2_driverClassName}" />
+        <property name="filters" value="${d2_filters}" />
+        <!-- 最大并发连接数 -->
+        <property name="maxActive" value="${d2_maxActive}" />
+        <!-- 初始化连接数量 -->
+        <property name="initialSize" value="${d2_initialSize}" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${d2_maxWait}" />
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="${d2_minIdle}" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${d2_timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${d2_minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${d2_validationQuery}" />
+        <property name="testWhileIdle" value="${d2_testWhileIdle}" />
+        <property name="testOnBorrow" value="${d2_testOnBorrow}" />
+        <property name="testOnReturn" value="${d2_testOnReturn}" />
+        <property name="maxOpenPreparedStatements" value="${d2_maxOpenPreparedStatements}" />
+        <!-- 打开removeAbandoned功能 -->
+        <property name="removeAbandoned" value="${d2_removeAbandoned}" />
+        <!-- 1800秒，也就是30分钟 -->
+        <property name="removeAbandonedTimeout" value="${d2_removeAbandonedTimeout}" />
+        <!-- 关闭abanded连接时输出错误日志 -->
+        <property name="logAbandoned" value="${d2_logAbandoned}" />
+    </bean>
+
+    <bean id="dynamicDataSource" class="com.mx.config.DynamicDataSource">
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry value-ref="dataSourceOne" key="dataSourceOne"></entry>
+                <entry value-ref="dataSourceTwo" key="dataSourceTwo"></entry>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="dataSourceOne"></property>
+    </bean>
+
+    <!-- 第一数据源 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dynamicDataSource" />
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/mapper/**/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory" />
+    </bean>
+
+    <!-- 第二数据源 -->
+    <!--<bean id="sqlSessionFactoryTwo" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceTwo" />
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mybatis/mapper/**/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sqlSessionTemplateTwo" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactoryTwo" />
+    </bean>-->
+
+
+</beans>
